@@ -8,7 +8,7 @@ struct MyCustomStruct {
 }
 /// A example struct impl for nscript
 impl NscriptStructBinding for MyCustomStruct {
-    fn neocat_exec(&mut self,tocall:&str,args: &Vec<NscriptVar>) -> NscriptVar{
+    fn nscript_exec(&mut self,tocall:&str,args: &Vec<NscriptVar>) -> NscriptVar{
         let mut retvar = NscriptVar::new("nothing");
         match tocall{
             // in nscript can be called as mystruct::helloworld()
@@ -34,7 +34,7 @@ impl NscriptStructBinding for MyCustomStruct {
 
 /// example rust functions see fn main() for injection
 /// these also get copied when spawning threads!!
-pub fn nscriptfn_helloworld(args:&Vec<String>,block :&mut NscriptCodeBlock , storage :&mut NscriptStorage) -> NscriptVar  {
+pub fn nscriptfn_helloworld(args:&Vec<&str>,block :&mut NscriptCodeBlock , storage :&mut NscriptStorage) -> NscriptVar  {
     let mut var = NscriptVar::new("helloworld");
     // set the returning stringdata
     var.stringdata = "helloworld!".to_string();
@@ -50,14 +50,27 @@ pub fn nscriptfn_helloworld(args:&Vec<String>,block :&mut NscriptCodeBlock , sto
 pub fn main() {
     let mut nscript = Nscript::new();
     // spawn a struct to inject
-    let mut injectablestruct = MyCustomStruct {};
+    let  injectablestruct = MyCustomStruct {};
     // insert a &mut strct into the nscript interpreter
-    nscript.insertstruct("mystruct", &mut injectablestruct);
+    nscript.insertstructowned("mystruct", injectablestruct);
     // insert a rust function to the interpreter.
     nscript.insertfn("helloworld",nscriptfn_helloworld);
     // run a file given by the terminals 1st argument
     let script = nscript.storage.getglobal("$cmdarg1").stringdata;
-    nscript.parsefile(&script);
+    if Nstring::fromright(&script,3) == ".nc" {
+        nscript.parsefile(&script);
+    }else{
+                let mut string = "~/.nscript".to_string();
+                //var.stringdata
+                if let Ok(value) = env::var("NSCRIPT_PATH") {
+                    string = value
+                }
+        //print(&format!("{}/init.nc",string),"r");
+        nscript.parsefile(&format!("{}/init.nc",string));
+
+        //print(&format!("{}/init.nc done",string),"r");
+    }
+
     // while theres a coroutine keep the interpreter up!
     // between a cycle of all the coroutine you can add your rust code here.
     loop {
