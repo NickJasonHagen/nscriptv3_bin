@@ -8,7 +8,7 @@ struct MyCustomStruct {
 }
 /// A example struct impl for nscript
 impl NscriptStructBinding for MyCustomStruct {
-    fn nscript_exec(&mut self,tocall:&str,args: &Vec<NscriptVar>) -> NscriptVar{
+    fn nscript_exec(&mut self,tocall:&str,args: &Vec<NscriptVar>, _storage :&mut NscriptStorage) -> NscriptVar{
         let mut retvar = NscriptVar::new("nothing");
         match tocall{
             // in nscript can be called as mystruct::helloworld()
