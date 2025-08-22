@@ -11,4 +11,5 @@ split-debuginfo = '...'  # Platform-specific.
 debug-assertions = false
 overflow-checks = false
 [dependencies]
-nscript_lib = { git = "https://github.com/NickJasonHagen/Nscriptv3_lib" }
+#nscript_lib = { git = "https://github.com/NickJasonHagen/Nscriptv3_lib" }
+nscript_lib = { path = "/home/skorm/projects/Nscriptv3_lib" }

@@ -54,15 +54,16 @@ pub fn main() {
     // insert a &mut strct into the nscript interpreter
     nscript.insertstructowned("mystruct", injectablestruct);
     // insert a rust function to the interpreter.
-    nscript.insertfn("helloworld",nscriptfn_helloworld);
+    nscript.insertfn("helloworld",nscriptfn_helloworld,"helloworld() prints hello world");
     // run a file given by the terminals 1st argument
     let script = nscript.storage.getglobal("$cmdarg1").stringdata;
     if Nstring::fromright(&script,3) == ".nc" {
         nscript.parsefile(&script);
     }else{
-                let mut string = "~/.nscript".to_string();
+                let mut string = "~/nscript".to_string();
                 //var.stringdata
                 if let Ok(value) = env::var("NSCRIPT_PATH") {
+            //print(&value,"bp");
                     string = value
                 }
         //print(&format!("{}/init.nc",string),"r");
@@ -74,7 +75,7 @@ pub fn main() {
     // while theres a coroutine keep the interpreter up!
     // between a cycle of all the coroutine you can add your rust code here.
     loop {
-        if nscript.coroutines.len() > 0 {
+        if nscript.coroutinesindex.len() > 0 {
             // coroutines all run once then the function returns here.
             nscript.executecoroutines();
         }else{
