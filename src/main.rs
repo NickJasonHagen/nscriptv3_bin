@@ -38,6 +38,7 @@ pub fn nscriptfn_helloworld(args:&Vec<&str>,block :&mut NscriptCodeBlock , stora
     let mut var = NscriptVar::new("helloworld");
     // set the returning stringdata
     var.stringdata = "helloworld!".to_string();
+    print(&var.stringdata,"green");
     // set something to the stringvec
     var.stringvec.push("a var is String and a Vec<String>".to_string());
     // get the data from the argument reference vector
