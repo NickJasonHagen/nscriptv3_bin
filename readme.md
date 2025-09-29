@@ -3,38 +3,59 @@ run it by the commandline the first argument can represent a .nc scriptfilelocat
 example:
 "nscript scriptspersecond.nc"
 
-# syntaxis/keywords
+
+# functions
 ```c++
-//global classes
-class something{
-  // class linked functions
-  func hello(arg1,arg2){
-    msg = cat("hello ",arg1," ",arg2)
-    print(msg,"green")
-  }
-  func new(name){
-    // reflect the value as the reference, create a new global class upon the value of name
-    *name : self
-    //return it for reference usage
-    name
-  }
-  self.info = "im a propertie string attached to the class"
-}
 // a regular global function
 func helloworld(){
     print("helloworld!")
+    return @now
 }
-
+```
+# Basic types
+nscript variable: this is a string & stringvector at the same time.
+macros : they begin with @ , @lf @quote @sec @mon @day @hour @min @msec @scriptdir @now @date
+global variables will live during runtime
+local variables , the ones without a prefix will be discarted after a scope finishes
+scopes: code thats outside of a scope is considered a scope.
+function, classes , coroutines , threads are also scopes.
+ifscopes / matches forloops are not breaking local variables !
+coroutines: create a copy of the current scope. later on it will keep the locals alive during its cycles
+basic types can be variables , $globalvariables , @macros
+```c++
 localvariable = "this will only live thruout the scope where it gets executed, a scope can be a class , a function , or a block which was left over after the scopes are parsed out"
 $globalvariable = "$ prefix means its global, it will persist only 1 can exist."
 
 array = [1,2,3,4,"some text"]
 // or use vec(..) as a constructor
-
+```
+# Statements
+```c++
 //statements can have ||, or &&, and
 // checking using defaults as true dont work
 // instead use : if something == true {}
+if 1 == 2 {
+  // some
+}
+else {
+  // something else
+}
 
+if @sec == 2 && @day == 3 {
+ // some
+}
+else if @sec == 3{
+ // elseif
+}
+if string != "hello" || @sec == 1 && login == true{ // || &&
+
+}
+if string != "hello" or @sec == 1 and login == true{ // and or
+
+}
+```
+# Coroutines
+```c++
 //coroutines , ( spawned scopes which run sequentially beside one another)
 // when a during a coroutine you spawn a new coroutine it will be queued and executed from the next frame
 coroutine "globalreference" {
@@ -48,7 +69,9 @@ coroutine "mytimedevent" each 1000{
     // does something every 1000ms
     break self
 }
-
+```
+# Matching
+```c++
 // matching
 match @sec {
     1 2 3 =>{
@@ -72,7 +95,24 @@ somevar = match @sec{
    }
 }
 
-
+```
+# Objects
+```c++
+//global classes
+class something{
+  // class linked functions
+  func hello(arg1,arg2){
+    msg = cat("hello ",arg1," ",arg2)
+    print(msg,"green")
+  }
+  func new(name){
+    // reflect the value as the reference, create a new global class upon the value of name
+    *name : self
+    //return it for reference usage
+    name
+  }
+  self.info = "im a propertie string attached to the class"
+}
 // setting props and constructing objects
 obj = something.new("myobject")
 // to tag classes you need their unique reference.
@@ -101,7 +141,9 @@ allfuncs = object::functions(myobj)
 
 // functions have unique identifiers however you can always re-declare them during runtime
 // thats the power of nscript!
-
+```
+# iterations and loops
+```c++
 // iterating
 objects = ["pietje","kees"]
 for x in objects{
@@ -111,7 +153,15 @@ for x in objects{
 for x to 100 {
   print(x,"red")
 }
-
+// loops!
+loop {
+// repeat something
+// holds up coroutines..
+break
+}
+```
+# Reflecting functions
+```c++
 // reflecting functions
 // this might be somewhat confusing, but you could potentially evade the use of if's and matches by
 // using this.
@@ -120,13 +170,10 @@ myclass = "pietje"
 myfunc = "somefunction"
 *myclass.*myfunction() // <-both the object reference and the function reference will be evaluated before executed
 
-// loops!
-loop {
-// repeat something
-// holds up coroutines..
-break
-}
 
+```
+# Threading
+```c++
 // threading!
 
 thread mythread{
