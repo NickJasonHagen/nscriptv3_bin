@@ -5,12 +5,18 @@ example:
 
 
 # functions
+functions are global , meaning 1 can persist of a unique name
+the arguments you declare if not given by the user will appear empty
+the parser will not check the ammount of given arguments
+this way you can use some overload system.
 ```c++
 // a regular global function
-func helloworld(){
-    print("helloworld!")
+func helloworld(name){
+    print("helloworld! ",name,"green")
     return @now
 }
+
+ontime = helloworld("piet")
 ```
 # Basic types
 nscript variable: this is a string & stringvector at the same time.
@@ -30,6 +36,12 @@ array = [1,2,3,4,"some text"]
 // or use vec(..) as a constructor
 ```
 # Statements
+statements have to check something.
+not allowed: if somevaristrue {} !
+use : if somevaristrue == true {}
+
+you can mix statements by and/or  ||/&&
+you can use functions,nestedfunctions,classfunctions,properties,globals,macros,vectorpoints
 ```c++
 //statements can have ||, or &&, and
 // checking using defaults as true dont work
@@ -55,6 +67,12 @@ if string != "hello" or @sec == 1 and login == true{ // and or
 }
 ```
 # Coroutines
+coroutines are what sepperates nscript from the others
+in the binary at least 1 coroutine must exist or the runtime will exit.
+or if you prefer to use loop{} however for more flexable coding coroutines are of help.
+
+coroutines are handled in a sequence , in the rust runtime each coroutine will be checked in the main loop
+you can spawn coroutines that run by a given elapsed time in ms
 ```c++
 //coroutines , ( spawned scopes which run sequentially beside one another)
 // when a during a coroutine you spawn a new coroutine it will be queued and executed from the next frame
@@ -69,8 +87,15 @@ coroutine "mytimedevent" each 1000{
     // does something every 1000ms
     break self
 }
+coroutine "mytimedevent" each somefunction(somearg){ // cast function as time directly
+    // does something every 1000ms
+    break self
+}
 ```
 # Matching
+matching , can be done in 2 ways, either you catch a variable or you dont.
+in both ways a return will exit the match sccope
+you can use _ as a exeption. however its not required
 ```c++
 // matching
 match @sec {
@@ -97,6 +122,14 @@ somevar = match @sec{
 
 ```
 # Objects
+objects in nscripts hold a lot of power. however their references are all global
+meaning only 1 can exist, however theres a lot of tricks to spawn them with a unique buildup reference
+to keep it all organized.
+objects can be outputted to and from files in njh format (line based #header data)
+objects can be converted to and from json
+objects properties and functions are registered and can be retrieved as a vector
+functions and properties can both be reflected, this way you can build the references as a string
+and tag the desired objects / functions / properties
 ```c++
 //global classes
 class something{
@@ -141,8 +174,27 @@ allfuncs = object::functions(myobj)
 
 // functions have unique identifiers however you can always re-declare them during runtime
 // thats the power of nscript!
+
+// set some by reflection
+obj = "karel"
+prop = "name"
+*obj.*prop = obj // sets karel.name with karel
+
+// reflecting functions
+// this might be somewhat confusing, but you could potentially evade the use of if's and matches by
+// using this.
+
+myclass = "pietje"
+myfunc = "somefunction"
+*myclass.*myfunction() // <-both the object reference and the function reference will be evaluated before executed
+
+
 ```
 # iterations and loops
+theres 2 for loop types, on using a vector and the other using a counter
+the for loop uses a break without identefier.
+be aware: all of these loops affect the main thread therefor could holdup the execution of the coroutines
+
 ```c++
 // iterating
 objects = ["pietje","kees"]
@@ -160,19 +212,14 @@ loop {
 break
 }
 ```
-# Reflecting functions
-```c++
-// reflecting functions
-// this might be somewhat confusing, but you could potentially evade the use of if's and matches by
-// using this.
 
-myclass = "pietje"
-myfunc = "somefunction"
-*myclass.*myfunction() // <-both the object reference and the function reference will be evaluated before executed
-
-
-```
 # Threading
+threading, handled with a channel link where the mainthread can ping the subthreads and then they can communicate back
+its a 2way system however the initial call has to be done from the mainthread.
+its up to the user to build a working system for handling that
+the threads cannot contact the mainthread on their own.
+they awnser when called if they can, the variables they sync will be empty if something fails
+
 ```c++
 // threading!
 
