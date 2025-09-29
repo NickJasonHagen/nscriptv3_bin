@@ -37,7 +37,7 @@ impl NscriptStructBinding for MyCustomStruct {
 pub fn nscriptfn_helloworld(args:&Vec<&str>,block :&mut NscriptCodeBlock , storage :&mut NscriptStorage) -> NscriptVar  {
     let mut var = NscriptVar::new("helloworld");
     // set the returning stringdata
-    var.stringdata = "helloworld!".to_string();
+    var.stringdata = "helloworld!".into();
     print(&var.stringdata,"green");
     // set something to the stringvec
     var.stringvec.push("a var is String and a Vec<String>".to_string());

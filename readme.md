@@ -1,9 +1,55 @@
-#how to use
+# how to use
 run it by the commandline the first argument can represent a .nc scriptfilelocation
 example:
 "nscript scriptspersecond.nc"
 
-#nscript core functions
+# syntaxis/keywords
+```swift
+//global classes
+class something{
+  // class linked functions
+  func hello(arg1,arg2){
+    msg = cat("hello ",arg1," ",arg2)
+    print(msg,"green")
+  }
+  func new(name){
+    // reflect the value as the reference, create a new global class upon the value of name
+    *name : self
+    //return it for reference usage
+    name
+  }
+  self.info = "im a propertie string attached to the class"
+}
+// a regular global function
+func helloworld(){
+    print("helloworld!")
+}
+
+localvariable = "this will only live thruout the scope where it gets executed, a scope can be a class , a function , or a block which was left over after the scopes are parsed out"
+$globalvariable = "$ prefix means its global, it will persist only 1 can exist."
+
+array = [1,2,3,4,"some text"]
+// or use vec(..) as a constructor
+
+//statements can have ||, or &&, and
+// checking using defaults as true dont work
+// instead use : if something == true {}
+
+//coroutines , ( spawned scopes which run sequentially beside one another)
+// when a during a coroutine you spawn a new coroutine it will be queued and executed from the next frame
+coroutine "globalreference" {
+    //do something
+    break self //<- coroutines use a self variable this is used to break self in a un-managed state.
+}
+
+// time elapsed coroutines ( less runtime excessive then managing it with timers yourself)
+
+coroutine "mytimedevent" each 1000{
+    // does something every 1000ms
+    break self
+}
+```
+# nscript core functions
 ```swift
 printraw(string,color) // returns the given string, colors first char as a string "r" for red, blue,purple yellow green,magenta, for brightcolors add "b" so for red "br" for bright blue "bb"
 cos(number) // cos on number
