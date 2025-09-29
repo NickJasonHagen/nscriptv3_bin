@@ -1,4 +1,22 @@
+# intro
+This is a standalone runtime for parsing and executing Nscript syntax, created by Nick Jason Hagen. 2020
+The lib is opensource and as wip
+https://github.com/NickJasonHagen/nscriptv3_lib
+
+why Nscript?
+fast and easy syntax, very flexable. OOP with flexable casting methods
+runtime execution and hot-loading datastructures.
+build in asynchronity and thread options
+cross OS capabable
+runs on x64 and ARM, build in http functions for easy api systems.
+easy terminal displays, coloring by defaults , rawmode ability (linux)
+able to call the systems shell and work with other apps
+very low resource requirements (it runs on a pi zero and any termux capable android phone)
+
+Apple: well ! i havent tested it yet ! but i would like to hear if you did.
 # how to use
+Build the binary using rust:
+cargo build --release it will build it for your platform, the .nc files are universal upon platforms
 run it by the commandline the first argument can represent a .nc scriptfilelocation
 example:
 "nscript scriptspersecond.nc"
@@ -287,7 +305,7 @@ hextostring(hexstring)  // returns a string from a given hexstring
 print(string,string:color default=white)  // prints a string to the console,
 // the color argument is optional colors can be given as the first character
 // every color has a bright version
-red = r
+//red = r
 // blue = b
 // bright blue = bb
 // red = r etc
@@ -305,7 +323,7 @@ listdir(directorypath,bool:fullpathasresult default=false)  // returns a vector 
 filesize(filepath) // returns a kb/mb/gb floored number of the filesize
 filesizebytes(filepath)  // returns the filesize in bytes
 runwait(shellcommandstring)  // executes a shell command, returns the result
- this is a blocking function if the called program doesnt exit , relevant see run()
+// this is a blocking function if the called program doesnt exit , relevant see run()
 run(shellcommandstring) // executes a shell command, returns the status as a string. (none blocking) relevant : runwait()
 round(numbervar,decimals) // returns a rounded number by the given decimals.
 sleep(int:timeinms) //  will pause the thread for x ms seconds.
