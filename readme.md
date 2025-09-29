@@ -4,7 +4,7 @@ example:
 "nscript scriptspersecond.nc"
 
 # syntaxis/keywords
-```swift
+```c++
 //global classes
 class something{
   // class linked functions
@@ -48,9 +48,32 @@ coroutine "mytimedevent" each 1000{
     // does something every 1000ms
     break self
 }
+
+// matching
+match @sec {
+    1 2 3 =>{
+        // on 1 2 or 3
+    }
+    4 5 6 =>{
+        // on 4 5 6
+    }
+    _ => {
+       // otherwise if it isnt matching
+    }
+}
+
+// var on match
+somevar = match @sec{
+   1 2 3 =>{
+      return true
+   }
+   _ =>{
+      return false
+   }
+}
 ```
 # nscript core functions
-```swift
+```c++
 printraw(string,color) // returns the given string, colors first char as a string "r" for red, blue,purple yellow green,magenta, for brightcolors add "b" so for red "br" for bright blue "bb"
 cos(number) // cos on number
 sin(number) // sin on number
