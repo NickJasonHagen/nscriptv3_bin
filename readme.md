@@ -71,9 +71,91 @@ somevar = match @sec{
       return false
    }
 }
+
+
+// setting props and constructing objects
+obj = something.new("myobject")
+// to tag classes you need their unique reference.
+// you can use * to evaluate a variable before it will target the class name.
+// if you dont use * it will litterly point to the name you use.
+// in our case a object myobject is spawned however we catch it as obj (localvariable)
+// so we need to reflect it on use
+*obj.name = "pietje"
+*obj.age = 24
+json = object::tojson(obj) // creates a json value of all the properties (string values only)
+
+// construct a new object from a json string
+myobj = object::fromjson(jsonstring)
+
+// getting all propertynames
+vectorwithpropertynames = object::index(myobj)
+
+// getting all inherented functions of a object
+allfuncs = object::functions(myobj)
+
+// objects can inherent other objects to expand or replace functionality during runtime!
+
+*myobj : dog // lets say dog has dog walking functions
+*myobj : cat // now it morphed to cat functions
+*myobj : dog //  and now its a dog again!
+
+// functions have unique identifiers however you can always re-declare them during runtime
+// thats the power of nscript!
+
+// iterating
+objects = ["pietje","kees"]
+for x in objects{
+  *x.something()
+}
+
+for x to 100 {
+  print(x,"red")
+}
+
+// reflecting functions
+// this might be somewhat confusing, but you could potentially evade the use of if's and matches by
+// using this.
+
+myclass = "pietje"
+myfunc = "somefunction"
+*myclass.*myfunction() // <-both the object reference and the function reference will be evaluated before executed
+
+// loops!
+loop {
+// repeat something
+// holds up coroutines..
+break
+}
+
+// threading!
+
+thread mythread{
+// this is a bodyplate for the internal channel, internally links will call this function on call
+// and fill the first argument
+// thread must have 1 coroutine not to exit!
+func threadreceive(receivedvar){
+  print("hello from main thread")
+  return "hello back!"
+}
+coroutine "main" each 50{
+
+}
+}
+
+// spawning a thread!
+// keyword name [copies .. ] and lastly the base to spawn from
+// by copies you can copy as many classes c: variables v: (also globals) or functions f:functionname
+// as a spawned thread runs as a new instance it can still take copies of existing data during spawning.
+// the channel is handled internally
+spawnthread spawnedthreadname v:myvariable c:myclass threadbasereference
+
+// calling a thread TRD::{threadidentifiername}(argument)
+returnvar = TRD::mythread(variabletosync) // var can be string/vec
+// however the return var may be empty if the thread isnt ready yet.
+// threads are designed to not block the code. so take this in mind.
 ```
 # nscript core functions
-```c++
+```swift
 printraw(string,color) // returns the given string, colors first char as a string "r" for red, blue,purple yellow green,magenta, for brightcolors add "b" so for red "br" for bright blue "bb"
 cos(number) // cos on number
 sin(number) // sin on number
