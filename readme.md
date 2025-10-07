@@ -20,6 +20,21 @@ cargo build --release it will build it for your platform, the .nc files are univ
 run it by the commandline the first argument can represent a .nc scriptfilelocation
 example:
 "nscript scriptspersecond.nc"
+# how to build
+## install rust
+for windows https://rust-lang.org/tools/install/
+for linux
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+and have git installed
+to build it with rust
+```shell
+git clone https://github.com/NickJasonHagen/nscriptv3_bin
+cd nscriptv3_bin
+cargo build --release
+````
+you will find your Nscript runtime binary / executable in the target/release folder,copy it from there to your desired installation dir.
 
 
 # functions
