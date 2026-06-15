@@ -20,6 +20,10 @@ cargo build --release it will build it for your platform, the .nc files are univ
 run it by the commandline the first argument can represent a .nc scriptfilelocation
 example:
 "nscript scriptspersecond.nc"
+# Binaries
+if you dont know how to build or dont want to ive precompiled some binaries 
+you will find them in the binaries folder
+
 # how to build
 ## install rust
 for windows https://rust-lang.org/tools/install/
